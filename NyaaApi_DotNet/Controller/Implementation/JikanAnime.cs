@@ -10,6 +10,8 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using JikanDotNet;
+using Newtonsoft.Json;
 
 namespace NyaaApi_DotNet.Controller.Implementation
 {
@@ -36,6 +38,8 @@ namespace NyaaApi_DotNet.Controller.Implementation
         }
         public async Task<APIGatewayProxyResponse> GetAnime(int animeId, string path, int episode)
         {
+
+
             endpoint = new StringBuilder();
             if(animeId == -1)
             {
@@ -65,7 +69,6 @@ namespace NyaaApi_DotNet.Controller.Implementation
 
         public async Task<APIGatewayProxyResponse> SearchAnimeSeasonal(string season, int year)
         {
-            Console.WriteLine("SEARCH SEASONAL");
             endpoint = new StringBuilder();
             if (season == null || season == "" || year < 1800)
             {
@@ -82,6 +85,46 @@ namespace NyaaApi_DotNet.Controller.Implementation
             HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
             return await responseHelperAsync(response);
         }
+
+        public async Task<APIGatewayProxyResponse> SearchAnimeSeasonalWrapper(string season, int year)
+        {
+            Console.WriteLine("Wrapper Seasonal");
+            Console.WriteLine("Season\t\t" + season);
+            Console.WriteLine("Year\t\t" + year);
+            Jikan j = new Jikan();
+            Seasons s = Seasons.Fall;
+            string strResult;
+            if (season.Length < 0 || season == "" || year < 1800)
+            {
+                strResult = "Missing Parameters";
+                return Https.apiResponse(HttpStatusCode.OK, strResult);
+
+            }
+            switch (season)
+            {
+                case "spring":
+                    s = Seasons.Spring;
+                    break;
+                case "winter":
+                    s = Seasons.Winter;
+                    break;
+                case "fall":
+                    s = Seasons.Fall;
+                    break;
+                case "summer":
+                    s = Seasons.Summer;
+                    break;
+                default:
+                    break;
+            }
+            Season seasons = await j.GetSeason(year, s);
+            strResult = JsonConvert.SerializeObject(seasons.SeasonEntries);
+            Console.WriteLine("TEST Jikanwarpper\t\t" + strResult.ToString());
+            Console.WriteLine("SEARCH SEASONAL");
+            return Https.apiResponse(HttpStatusCode.OK, strResult);
+            
+        }
+
 
         public async Task<APIGatewayProxyResponse> SearchAnimeTmp(string anime)
         {

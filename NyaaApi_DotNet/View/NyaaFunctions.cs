@@ -84,6 +84,47 @@ namespace NyaaApi_DotNet.View
                 
         }
 
+
+        public async Task<APIGatewayProxyResponse> SearchAnimeSeasonalWrapper(APIGatewayProxyRequest request)
+        {
+            Console.WriteLine("VIEW SEASONAL");
+            string season = null;
+            int year = -1;
+            if (request.QueryStringParameters.Keys.Count < 1)
+            {
+                strResult = "Error: {Keys.count < 1} Please Provide Correct Parameter Value";
+                return Https.apiResponse(HttpStatusCode.OK, strResult);
+            }
+            else
+            {
+                try
+                {
+                    foreach (KeyValuePair<string, string> v in request.QueryStringParameters)
+                    {
+                        string key = v.Key;
+                        switch (key)
+                        {
+                            case JikanAwsParameter.SEASON:
+                                season = v.Value;
+                                break;
+                            case JikanAwsParameter.YEAR:
+                                year = int.Parse(v.Value);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    return await jikanAnime.SearchAnimeSeasonalWrapper(season, year);
+                }
+                catch (Exception e)
+                {
+                    strResult = "Error Exception Found: " + e.ToString();
+                    return Https.apiResponse(HttpStatusCode.OK, strResult);
+                }
+            }
+
+        }
+
         public async Task<APIGatewayProxyResponse> SearchAnimeTmp(APIGatewayProxyRequest request)
         {
             string title = null;

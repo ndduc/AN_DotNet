@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ndduc\\Desktop\\Angular\\Anime Hooker\\animefinders\\DotNet_Nyaa_Jikan\\NyaaApi_DotNet\\NyaaApi_DotNet.csproj": {}
+    "C:\\Users\\ndduc\\Desktop\\Angular\\AnimeFinders\\AN_DotNet\\NyaaApi_DotNet\\NyaaApi_DotNet.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ndduc\\Desktop\\Angular\\Anime Hooker\\animefinders\\DotNet_Nyaa_Jikan\\NyaaApi_DotNet\\NyaaApi_DotNet.csproj": {
+    "C:\\Users\\ndduc\\Desktop\\Angular\\AnimeFinders\\AN_DotNet\\NyaaApi_DotNet\\NyaaApi_DotNet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ndduc\\Desktop\\Angular\\Anime Hooker\\animefinders\\DotNet_Nyaa_Jikan\\NyaaApi_DotNet\\NyaaApi_DotNet.csproj",
+        "projectUniqueName": "C:\\Users\\ndduc\\Desktop\\Angular\\AnimeFinders\\AN_DotNet\\NyaaApi_DotNet\\NyaaApi_DotNet.csproj",
         "projectName": "NyaaApi_DotNet",
-        "projectPath": "C:\\Users\\ndduc\\Desktop\\Angular\\Anime Hooker\\animefinders\\DotNet_Nyaa_Jikan\\NyaaApi_DotNet\\NyaaApi_DotNet.csproj",
+        "projectPath": "C:\\Users\\ndduc\\Desktop\\Angular\\AnimeFinders\\AN_DotNet\\NyaaApi_DotNet\\NyaaApi_DotNet.csproj",
         "packagesPath": "C:\\Users\\ndduc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ndduc\\Desktop\\Angular\\Anime Hooker\\animefinders\\DotNet_Nyaa_Jikan\\NyaaApi_DotNet\\obj\\",
+        "outputPath": "C:\\Users\\ndduc\\Desktop\\Angular\\AnimeFinders\\AN_DotNet\\NyaaApi_DotNet\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -60,6 +60,10 @@
               "target": "Package",
               "version": "[2.1.0, )"
             },
+            "JikanDotNet": {
+              "target": "Package",
+              "version": "[1.5.6, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
@@ -81,6 +85,11 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "linux-x64": {
+          "#import": []
         }
       }
     }

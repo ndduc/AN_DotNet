@@ -23,7 +23,7 @@ namespace NyaaApi_DotNet.Common
                     }
                     ,
                     {
-                        "Access-Control-Allow-Origin", "https://d13lyeufjd1b7.cloudfront.net"
+                        "Access-Control-Allow-Origin", "*"
                     },
                     {
                         "Access-Control-Allow-Credentials", "true"
