@@ -1,7 +1,5 @@
 ﻿using Amazon.Lambda.APIGatewayEvents;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NyaaApi_DotNet.Controller.Interface
@@ -27,5 +25,7 @@ namespace NyaaApi_DotNet.Controller.Interface
         Task<APIGatewayProxyResponse> GetAnimeEpisode(int animeId);
 
         Task<APIGatewayProxyResponse> GetAnimeDetail(int animeId);
+
+        Task<APIGatewayProxyResponse> GetTopAnime(int page, string subtype);
     }
 }

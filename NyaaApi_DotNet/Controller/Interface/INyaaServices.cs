@@ -1,14 +1,12 @@
-﻿using System.Threading.Tasks;
-using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.DynamoDBv2.DataModel;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using System.Threading.Tasks;
 
 
 namespace NyaaApi_DotNet.Controller.Interface
 {
     public interface INyaaServices
     {
-      Task<APIGatewayProxyResponse> GetNyaaSearchEngAnime(APIGatewayProxyRequest request);
+        Task<APIGatewayProxyResponse> GetNyaaSearchEngAnime(APIGatewayProxyRequest request);
 
     }
 }

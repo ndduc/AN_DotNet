@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NyaaApi_DotNet.Common
+﻿namespace NyaaApi_DotNet.Common
 {
     public class NyaaApi
     {
@@ -27,7 +23,7 @@ namespace NyaaApi_DotNet.Common
         public static string PAGE = "page=";
 
 
-        
+
     }
 
 

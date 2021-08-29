@@ -1,7 +1,4 @@
 ﻿using NyaaApi_DotNet.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NyaaApi_DotNet.Model
 {
@@ -9,7 +6,7 @@ namespace NyaaApi_DotNet.Model
     {
         public string name { get; set; }
         private string episode;
-        
+
         public string getEpisode()
         {
             return this.episode;
@@ -17,10 +14,11 @@ namespace NyaaApi_DotNet.Model
 
         public void setEpisode(string episode)
         {
-            if(episode.Length == 1)
+            if (episode.Length == 1)
             {
                 this.episode = "0" + episode;
-            } else
+            }
+            else
             {
                 this.episode = episode;
             }

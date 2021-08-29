@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NyaaApi_DotNet.Model.Enum
+﻿namespace NyaaApi_DotNet.Model.Enum
 {
     class EnumJikan
     {
@@ -132,7 +128,7 @@ namespace NyaaApi_DotNet.Model.Enum
             YURI = 34,
             HAREM = 35,
             SLICE_OF_LIFE = 36,
-            SUPERNATURAL= 37,
+            SUPERNATURAL = 37,
             MILITARY = 38,
             POLICE = 39,
             PSYCHOLOGICAL = 40,
@@ -187,7 +183,7 @@ namespace NyaaApi_DotNet.Model.Enum
             JOSEI = 42,
             DOUJINSHI = 43,
             GENDER_BENDER = 44,
-            THRILLER  = 45
+            THRILLER = 45
         }
     }
 }

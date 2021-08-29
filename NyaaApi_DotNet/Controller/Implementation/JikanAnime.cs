@@ -1,8 +1,9 @@
 ﻿using Amazon.Lambda.APIGatewayEvents;
+using JikanDotNet;
+using Newtonsoft.Json;
 using NyaaApi_DotNet.API;
 using NyaaApi_DotNet.Common;
 using NyaaApi_DotNet.Controller.Interface;
-using NyaaApi_DotNet.Model;
 using NyaaApi_DotNet.Model.Enum;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using JikanDotNet;
-using Newtonsoft.Json;
 
 namespace NyaaApi_DotNet.Controller.Implementation
 {
@@ -20,6 +19,7 @@ namespace NyaaApi_DotNet.Controller.Implementation
         private readonly string URL_ANIME = JikanApi.JIKAN + JikanApi.ANIME;
         private readonly string URL_SEARCH = JikanApi.JIKAN + JikanApi.SEARCH;
         private readonly string URL_SEASON = JikanApi.JIKAN + JikanApi.SEASON;
+        private readonly string URL_TOP = JikanApi.JIKAN + JikanApi.TOP;
         private string strResult;
         private StringBuilder endpoint;
 
@@ -41,21 +41,24 @@ namespace NyaaApi_DotNet.Controller.Implementation
 
 
             endpoint = new StringBuilder();
-            if(animeId == -1)
+            if (animeId == -1)
             {
                 strResult = "Missing Parameters";
                 return Https.apiResponse(HttpStatusCode.OK, strResult);
-            } else
+            }
+            else
             {
-                if(path == null)
+                if (path == null)
                 {
                     endpoint.Append(URL_ANIME).Append(JikanApi.SLASH).Append(animeId);
-                } else
+                }
+                else
                 {
-                    if(path == "episodes" && episode != -1)
+                    if (path == "episodes" && episode != -1)
                     {
                         endpoint.Append(URL_ANIME).Append(JikanApi.SLASH).Append(animeId).Append(JikanApi.SLASH).Append(path).Append(JikanApi.SLASH).Append(episode);
-                    } else
+                    }
+                    else
                     {
                         endpoint.Append(URL_ANIME).Append(JikanApi.SLASH).Append(animeId).Append(JikanApi.SLASH).Append(path);
                     }
@@ -122,7 +125,7 @@ namespace NyaaApi_DotNet.Controller.Implementation
             Console.WriteLine("TEST Jikanwarpper\t\t" + strResult.ToString());
             Console.WriteLine("SEARCH SEASONAL");
             return Https.apiResponse(HttpStatusCode.OK, strResult);
-            
+
         }
 
 
@@ -199,8 +202,9 @@ namespace NyaaApi_DotNet.Controller.Implementation
             endpoint = new StringBuilder();
             endpoint.Append(path).Append(JikanApi.QUEST);
             endpoint.Append(JikanParameter.TITLE).Append(title).Append(JikanApi.AND);
-            foreach (var e in enumParameters) {
-                switch(e)
+            foreach (var e in enumParameters)
+            {
+                switch (e)
                 {
                     case EnumJikan.ANIME_TYPE.TV:
                         endpoint.Append(EndPointBuilder(JikanParameter.TYPE, e));
@@ -264,6 +268,23 @@ namespace NyaaApi_DotNet.Controller.Implementation
             return default;
         }
 
+        public async Task<APIGatewayProxyResponse> GetTopAnime(int page, string subtype)
+        {
+            if (page == -1)
+            {
+                page = 1;
+            }
+            endpoint = new StringBuilder();
+            endpoint.Append(URL_TOP).Append("anime").Append(JikanApi.SLASH).Append(page);
+            if (subtype.Length > 1)
+            {
+                endpoint.Append(JikanApi.SLASH).Append(subtype);
+            }
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri(endpoint.ToString());
+            HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
+            return await responseHelperAsync(response);
+        }
 
         private StringBuilder EndPointBuilder(string key, dynamic value)
         {
@@ -272,6 +293,6 @@ namespace NyaaApi_DotNet.Controller.Implementation
                             .Append(JikanApi.AND);
         }
 
-       
+
     }
 }

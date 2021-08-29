@@ -1,20 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-
-using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-
-using Amazon.DynamoDBv2.DataModel;
-using System;
-using Amazon.DynamoDBv2.DocumentModel;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using Amazon.Lambda.APIGatewayEvents;
 using NyaaApi_DotNet.Common;
 using NyaaApi_DotNet.Controller.Interface;
 using NyaaApi_DotNet.Model;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Text;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace NyaaApi_DotNet.Controller.Implementation
 {
@@ -23,7 +16,7 @@ namespace NyaaApi_DotNet.Controller.Implementation
         readonly string url = NyaaApi.HERONYAA;
         private string strResult;
         private bool isNextExist = false;
-        public  async Task<APIGatewayProxyResponse> GetNyaaSearchEngAnime(APIGatewayProxyRequest request)
+        public async Task<APIGatewayProxyResponse> GetNyaaSearchEngAnime(APIGatewayProxyRequest request)
         {
             NyaaModel nyaaModel = new NyaaModel();
             StringBuilder endpoint = new StringBuilder();
@@ -31,14 +24,15 @@ namespace NyaaApi_DotNet.Controller.Implementation
             {
                 strResult = "Error: {Keys.count < 1} Please Provide Correct Parameter Value";
                 return Https.apiResponse(HttpStatusCode.OK, strResult);
-            } else
+            }
+            else
             {
                 try
                 {
                     foreach (KeyValuePair<string, string> v in request.QueryStringParameters)
                     {
                         string key = v.Key;
-                        switch(key)
+                        switch (key)
                         {
                             case Parameters.NAME:
                                 nyaaModel.name = v.Value;
@@ -46,7 +40,8 @@ namespace NyaaApi_DotNet.Controller.Implementation
                                 {
                                     nyaaModel.setEpisode(request.QueryStringParameters[Parameters.EPISODE]);
                                     endpoint.Append(NyaaApi.NAME + nyaaModel.name + " - " + nyaaModel.getEpisode() + "&");
-                                } else
+                                }
+                                else
                                 {
                                     endpoint.Append(NyaaApi.NAME + nyaaModel.name + "&");
                                 }
@@ -55,15 +50,16 @@ namespace NyaaApi_DotNet.Controller.Implementation
                                 break;
                         }
 
-                        
+
                     }
                     endpoint.Append(NyaaApi.CATEGORY + (int)HerokuEnum_Category.CATE_ANIME + "&");
                     endpoint.Append(NyaaApi.SUBCATEGORY + (int)HerokuEnum_SubCate.SUB_ANIME_ENG + "&");
-                    if(nyaaModel.name == null && nyaaModel.page == null)
+                    if (nyaaModel.name == null && nyaaModel.page == null)
                     {
                         strResult = "Missing Parameters";
                         return Https.apiResponse(HttpStatusCode.OK, strResult);
-                    } else
+                    }
+                    else
                     {
                         using var client = new HttpClient();
                         client.BaseAddress = new Uri(url + endpoint.ToString());
@@ -72,7 +68,7 @@ namespace NyaaApi_DotNet.Controller.Implementation
 
                         if (response.IsSuccessStatusCode)
                         {
-                          
+
                             strResult = await response.Content.ReadAsStringAsync();
                             return Https.apiResponse(HttpStatusCode.OK, strResult);
                         }
@@ -82,7 +78,8 @@ namespace NyaaApi_DotNet.Controller.Implementation
                             return Https.apiResponse(HttpStatusCode.OK, strResult);
                         }
                     }
-                }  catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     strResult = "Error Exception Found: " + e.ToString();
                     return Https.apiResponse(HttpStatusCode.OK, strResult);

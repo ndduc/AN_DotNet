@@ -3,7 +3,6 @@ using NyaaApi_DotNet.API;
 using NyaaApi_DotNet.Common;
 using NyaaApi_DotNet.Controller.Interface;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;

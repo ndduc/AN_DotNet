@@ -15,5 +15,7 @@ namespace NyaaApi_DotNet.Common
         public const string TITLE = "title";
         public const string YEAR = "year";
         public const string ANIMEID = "animeid";
+        public const string PAGE = "page";
+        public const string SUB = "subtype";
     }
 }

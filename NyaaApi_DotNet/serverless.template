@@ -163,6 +163,29 @@
           }
         }
       }
+    },
+    "GetTopAnime": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NyaaApi_DotNet::NyaaApi_DotNet.View.NyaaFunctions::GetTopAnime",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/jikan/anime/top",
+              "Method": "GET"
+            }
+          }
+        }
+      }
     }
   },
   "Outputs": {

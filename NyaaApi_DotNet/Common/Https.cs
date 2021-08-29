@@ -1,9 +1,7 @@
 ﻿using Amazon.Lambda.APIGatewayEvents;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Xml;
 
 namespace NyaaApi_DotNet.Common

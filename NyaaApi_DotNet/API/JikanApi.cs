@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NyaaApi_DotNet.API
+﻿namespace NyaaApi_DotNet.API
 {
     class JikanApi
     {
@@ -15,6 +11,7 @@ namespace NyaaApi_DotNet.API
         public static readonly string SEARCH = "search/";
         public static readonly string SEASON = "season/";
         public static readonly string EPISODE = "episodes/";
+        public static readonly string TOP = "top/";
     }
 
     class JikanParameter
@@ -32,4 +29,5 @@ namespace NyaaApi_DotNet.API
         public static readonly string ORDER = "order_by=";
         public static readonly string SORT = "sort=";
     }
+
 }
