@@ -1,4 +1,6 @@
-﻿using Amazon.DynamoDBv2.DataModel;
+﻿using Amazon;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using NyaaApi_DotNet.Common;
@@ -15,10 +17,12 @@ using System.Threading.Tasks;
 
 namespace NyaaApi_DotNet.View
 {
+
     class NyaaFunctions
     {
         private INyaaServices nyaa;
         private IJikanAnime jikanAnime;
+        private IQADynamo qaDynamo;
         private string strResult;
         IDynamoDBContext DDBContext { get; set; }
 
@@ -26,6 +30,16 @@ namespace NyaaApi_DotNet.View
         {
             this.nyaa = new NyaaServices();
             this.jikanAnime = new JikanAnime();
+            this.qaDynamo = new QADynamo();
+            var tableName = System.Environment.GetEnvironmentVariable(DynamoTable.TABLE);
+            if (!string.IsNullOrEmpty(tableName))
+            {
+                AWSConfigsDynamoDB.Context.TypeMappings[typeof(QADynamo)]
+                    = new Amazon.Util.TypeMapping(typeof(QADynamo), tableName);
+            }
+
+            var config = new DynamoDBContextConfig { Conversion = Amazon.DynamoDBv2.DynamoDBEntryConversion.V2 };
+            this.DDBContext = new DynamoDBContext(new AmazonDynamoDBClient(), config);
         }
         public async Task<APIGatewayProxyResponse> GetNyaaSearch(APIGatewayProxyRequest request)
         {
@@ -76,6 +90,27 @@ namespace NyaaApi_DotNet.View
         }
         public async Task<APIGatewayProxyResponse> SearchAnimeSeasonal(APIGatewayProxyRequest request)
         {
+            var Headers = new Dictionary<string, string>
+                {
+                    {
+                        "Content-Type", "application/json"
+                    }
+                    ,
+                    {
+                        "Access-Control-Allow-Origin", "*"
+                    },
+                    {
+                        "Access-Control-Allow-Credentials", "true"
+                    },
+                    {
+                        "Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS"
+                    },
+                    {
+                        "Access-Control-Allow-Headers", "X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization"
+                    }
+                };
+
+            request.Headers = Headers;
             Console.WriteLine("VIEW SEASONAL");
             string season = null;
             int year = -1;
@@ -256,6 +291,14 @@ namespace NyaaApi_DotNet.View
                 }
             }
         }
+
+
+        public async Task<APIGatewayProxyResponse> AddQuestion(APIGatewayProxyRequest request, ILambdaContext context)
+        {
+            return await qaDynamo.AddQuestion(DDBContext, request, context);
+        }
+
+
 
 
     }

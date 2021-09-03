@@ -1,0 +1,11 @@
+  {
+            "body": "{\"question\" : \"Test\"}",
+            "resource":"/qa",
+                 "path":"/qa",
+                 "httpMethod":"POST",
+                 "requestContext":{
+                     "resourcePath":"/qa",
+                     "httpMethod":"POST",
+                      "path":"/qa"
+                  }
+            }
