@@ -13,5 +13,7 @@
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.0.50" />
     <PackageReference Include="JikanDotNet" Version="1.5.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NyaaWrapper" Version="1.1.0" />
+    <PackageReference Include="VndbSharp" Version="1.1.1" />
   </ItemGroup>
 </Project>

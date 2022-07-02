@@ -67,6 +67,14 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "NyaaWrapper": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "VndbSharp": {
+              "target": "Package",
+              "version": "[1.1.1, )"
             }
           },
           "imports": [
@@ -84,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

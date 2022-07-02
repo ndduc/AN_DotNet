@@ -23,6 +23,7 @@ namespace NyaaApi_DotNet.View
         private INyaaServices nyaa;
         private IJikanAnime jikanAnime;
         private IQADynamo qaDynamo;
+        private INyaaSukebeiServices nyaaSukebei;
         private string strResult;
         IDynamoDBContext DDBContext { get; set; }
 
@@ -31,6 +32,7 @@ namespace NyaaApi_DotNet.View
             this.nyaa = new NyaaServices();
             this.jikanAnime = new JikanAnime();
             this.qaDynamo = new QADynamo();
+            this.nyaaSukebei = new NyaaSukebeiServices();
             var tableName = System.Environment.GetEnvironmentVariable(DynamoTable.TABLE);
             if (!string.IsNullOrEmpty(tableName))
             {
@@ -52,7 +54,6 @@ namespace NyaaApi_DotNet.View
         }
         public async Task<APIGatewayProxyResponse> GetTopAnime(APIGatewayProxyRequest request)
         {
-            Console.WriteLine("VIEW TOP");
             int page = -1;
             string subtype = null;
             if (request.QueryStringParameters.Keys.Count < 1)
@@ -88,30 +89,44 @@ namespace NyaaApi_DotNet.View
                 }
             }
         }
+
+
+        public async Task<APIGatewayProxyResponse> GetTopHentai(APIGatewayProxyRequest request)
+        {
+            int page = -1;
+            if (request.QueryStringParameters.Keys.Count < 1)
+            {
+                strResult = "Error: {Keys.count < 1} Please Provide Correct Parameter Value";
+                return Https.apiResponse(HttpStatusCode.OK, strResult);
+            }
+            else
+            {
+                try
+                {
+                    foreach (KeyValuePair<string, string> v in request.QueryStringParameters)
+                    {
+                        string key = v.Key;
+                        switch (key)
+                        {
+                            case JikanAwsParameter.PAGE:
+                                page = int.Parse(v.Value);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    return await jikanAnime.GetTopHentai(page);
+                }
+                catch (Exception e)
+                {
+                    strResult = "Error Exception Found: " + e.ToString();
+                    return Https.apiResponse(HttpStatusCode.OK, strResult);
+                }
+            }
+        }
+
         public async Task<APIGatewayProxyResponse> SearchAnimeSeasonal(APIGatewayProxyRequest request)
         {
-            var Headers = new Dictionary<string, string>
-                {
-                    {
-                        "Content-Type", "application/json"
-                    }
-                    ,
-                    {
-                        "Access-Control-Allow-Origin", "*"
-                    },
-                    {
-                        "Access-Control-Allow-Credentials", "true"
-                    },
-                    {
-                        "Access-Control-Allow-Methods", "HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS"
-                    },
-                    {
-                        "Access-Control-Allow-Headers", "X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization"
-                    }
-                };
-
-            request.Headers = Headers;
-            Console.WriteLine("VIEW SEASONAL");
             string season = null;
             int year = -1;
             if (request.QueryStringParameters.Keys.Count < 1)
@@ -152,7 +167,6 @@ namespace NyaaApi_DotNet.View
 
         public async Task<APIGatewayProxyResponse> SearchAnimeSeasonalWrapper(APIGatewayProxyRequest request)
         {
-            Console.WriteLine("VIEW SEASONAL");
             string season = null;
             int year = -1;
             if (request.QueryStringParameters.Keys.Count < 1)
@@ -300,6 +314,142 @@ namespace NyaaApi_DotNet.View
 
 
 
+        public async Task<APIGatewayProxyResponse> GetSearchNyaaSukebeiAnime(APIGatewayProxyRequest request)
+        {
+            string title = "";
+            if (request.QueryStringParameters.Keys.Count < 1)
+            {
+                strResult = "Error: {Keys.count < 1} Please Provide Correct Parameter Value";
+                return Https.apiResponse(HttpStatusCode.OK, strResult);
+            }
+            else
+            {
+                try
+                {
+                    title = QueryTitle(request);
+                    return await GetSukebeiSearch(title, 1, 1);
+                }
+                catch (Exception e)
+                {
+                    strResult = "Error Exception Found: " + e.ToString();
+                    return Https.apiResponse(HttpStatusCode.OK, strResult);
+                }
+            }
+        }
 
+
+        public async Task<APIGatewayProxyResponse> GetSearchNyaaSukebeiEroge(APIGatewayProxyRequest request)
+        {
+            ///return await nyaaSukebei.GetNyaaSukebei(request);
+            string title = "";
+            if (request.QueryStringParameters.Keys.Count < 1)
+            {
+                strResult = "Error: {Keys.count < 1} Please Provide Correct Parameter Value";
+                return Https.apiResponse(HttpStatusCode.OK, strResult);
+            }
+            else
+            {
+                try
+                {
+                    title = QueryTitle(request);
+                    return await GetSukebeiSearch(title, 1, 3);
+                }
+                catch (Exception e)
+                {
+                    strResult = "Error Exception Found: " + e.ToString();
+                    return Https.apiResponse(HttpStatusCode.OK, strResult);
+                }
+            }
+        }
+
+        public async Task<APIGatewayProxyResponse> GetSearchNyaaSukebeiDoujinshi(APIGatewayProxyRequest request)
+        {
+
+            ///return await nyaaSukebei.GetNyaaSukebei(request);
+            string title = "";
+            if (request.QueryStringParameters.Keys.Count < 1)
+            {
+                strResult = "Error: {Keys.count < 1} Please Provide Correct Parameter Value";
+                return Https.apiResponse(HttpStatusCode.OK, strResult);
+            }
+            else
+            {
+                try
+                {
+                    title = QueryTitle(request);
+                    return await GetSukebeiSearch(title, 1, 2);
+                }
+                catch (Exception e)
+                {
+                    strResult = "Error Exception Found: " + e.ToString();
+                    return Https.apiResponse(HttpStatusCode.OK, strResult);
+                }
+            }
+        }
+
+        public async Task<APIGatewayProxyResponse> Test(APIGatewayProxyRequest request)
+        {
+            Vndbs a = new Vndbs();
+            a.test();
+            return Https.apiResponse(HttpStatusCode.OK, "test");
+        }
+
+        public async Task<APIGatewayProxyResponse> GetSearchNyaaSukebeiJAV(APIGatewayProxyRequest request)
+        {
+            ///return await nyaaSukebei.GetNyaaSukebei(request);
+            string title = "";
+            if (request.QueryStringParameters.Keys.Count < 1)
+            {
+                strResult = "Error: {Keys.count < 1} Please Provide Correct Parameter Value";
+                return Https.apiResponse(HttpStatusCode.OK, strResult);
+            }
+            else
+            {
+                try
+                {
+                    title = QueryTitle(request);
+                    return await GetSukebeiSearch(title, 2, 2);
+                }
+                catch (Exception e)
+                {
+                    strResult = "Error Exception Found: " + e.ToString();
+                    return Https.apiResponse(HttpStatusCode.OK, strResult);
+                }
+            }
+        }
+
+        private string QueryTitle(APIGatewayProxyRequest request)
+        {
+            string title = "";
+            foreach (KeyValuePair<string, string> v in request.QueryStringParameters)
+            {
+                string key = v.Key;
+                switch (key)
+                {
+                    case JikanAwsParameter.TITLE:
+                        title = v.Value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return title;
+        }
+
+        private async Task<APIGatewayProxyResponse> GetSukebeiSearch(string q, int cate, int sub_cate)
+        {
+            try
+            {
+                return await nyaaSukebei.GetSukebeiSearch(q, cate, sub_cate);
+            }
+            catch (Exception e)
+            {
+                strResult = "Error Exception Found: " + e.ToString();
+                return Https.apiResponse(HttpStatusCode.OK, strResult);
+            }
+
+        }
     }
+
 }

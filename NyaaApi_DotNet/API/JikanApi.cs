@@ -12,6 +12,7 @@
         public static readonly string SEASON = "season/";
         public static readonly string EPISODE = "episodes/";
         public static readonly string TOP = "top/";
+        public static readonly string GENRE = "genre/";
     }
 
     class JikanParameter

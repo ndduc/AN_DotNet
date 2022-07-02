@@ -63,7 +63,6 @@ namespace NyaaApi_DotNet.Controller.Implementation
                     {
                         using var client = new HttpClient();
                         client.BaseAddress = new Uri(url + endpoint.ToString());
-                        Console.WriteLine("Check Client URL\t\t" + client.BaseAddress.ToString());
                         HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
 
                         if (response.IsSuccessStatusCode)
@@ -85,9 +84,6 @@ namespace NyaaApi_DotNet.Controller.Implementation
                     return Https.apiResponse(HttpStatusCode.OK, strResult);
                 }
             }
-
-
-
         }
 
     }

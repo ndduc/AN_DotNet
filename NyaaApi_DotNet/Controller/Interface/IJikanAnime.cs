@@ -18,6 +18,7 @@ namespace NyaaApi_DotNet.Controller.Interface
 
         Task<APIGatewayProxyResponse> SearchAnimeSeasonal(string season, int year);
 
+
         Task<APIGatewayProxyResponse> SearchAnimeSeasonalWrapper(string season, int year);
 
         Task<APIGatewayProxyResponse> SearchAnimeTmp(string anime);
@@ -27,5 +28,7 @@ namespace NyaaApi_DotNet.Controller.Interface
         Task<APIGatewayProxyResponse> GetAnimeDetail(int animeId);
 
         Task<APIGatewayProxyResponse> GetTopAnime(int page, string subtype);
+
+        Task<APIGatewayProxyResponse> GetTopHentai(int page);
     }
 }

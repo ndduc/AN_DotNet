@@ -24,7 +24,8 @@ namespace NyaaApi_DotNet.Controller.Implementation
             try
             {
                 Anifinders_QA qa = JsonConvert.DeserializeObject<Anifinders_QA>(request?.Body);
-                if (qa.Question == null) {
+                if (qa.Question == null)
+                {
                     throw new Exception();
                 }
                 qa.HashKey = hashValue;

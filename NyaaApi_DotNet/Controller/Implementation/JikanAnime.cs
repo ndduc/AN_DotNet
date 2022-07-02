@@ -19,6 +19,7 @@ namespace NyaaApi_DotNet.Controller.Implementation
         private readonly string URL_ANIME = JikanApi.JIKAN + JikanApi.ANIME;
         private readonly string URL_SEARCH = JikanApi.JIKAN + JikanApi.SEARCH;
         private readonly string URL_SEASON = JikanApi.JIKAN + JikanApi.SEASON;
+        private readonly string URL_GENRE = JikanApi.JIKAN + JikanApi.GENRE;
         private readonly string URL_TOP = JikanApi.JIKAN + JikanApi.TOP;
         private string strResult;
         private StringBuilder endpoint;
@@ -36,6 +37,7 @@ namespace NyaaApi_DotNet.Controller.Implementation
                 return Https.apiResponse(HttpStatusCode.OK, strResult);
             }
         }
+
         public async Task<APIGatewayProxyResponse> GetAnime(int animeId, string path, int episode)
         {
 
@@ -82,18 +84,16 @@ namespace NyaaApi_DotNet.Controller.Implementation
             {
                 endpoint.Append(URL_SEASON).Append(year).Append(JikanApi.SLASH).Append(season);
             }
-            Console.WriteLine("URL\t\t" + endpoint.ToString());
             using var client = new HttpClient();
             client.BaseAddress = new Uri(endpoint.ToString());
             HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
             return await responseHelperAsync(response);
         }
 
+
+
         public async Task<APIGatewayProxyResponse> SearchAnimeSeasonalWrapper(string season, int year)
         {
-            Console.WriteLine("Wrapper Seasonal");
-            Console.WriteLine("Season\t\t" + season);
-            Console.WriteLine("Year\t\t" + year);
             Jikan j = new Jikan();
             Seasons s = Seasons.Fall;
             string strResult;
@@ -122,8 +122,6 @@ namespace NyaaApi_DotNet.Controller.Implementation
             }
             Season seasons = await j.GetSeason(year, s);
             strResult = JsonConvert.SerializeObject(seasons.SeasonEntries);
-            Console.WriteLine("TEST Jikanwarpper\t\t" + strResult.ToString());
-            Console.WriteLine("SEARCH SEASONAL");
             return Https.apiResponse(HttpStatusCode.OK, strResult);
 
         }
@@ -144,6 +142,7 @@ namespace NyaaApi_DotNet.Controller.Implementation
             return await responseHelperAsync(response);
         }
 
+
         public async Task<APIGatewayProxyResponse> GetAnimeEpisode(int animeId)
         {
             if (animeId <= 0)
@@ -154,7 +153,6 @@ namespace NyaaApi_DotNet.Controller.Implementation
             endpoint = new StringBuilder();
             endpoint.Append(URL_ANIME).Append(animeId).Append(JikanApi.SLASH).Append(JikanApi.EPISODE);
             endpoint.Remove(endpoint.Length - 1, 1);
-            Console.WriteLine("URL\t\t" + endpoint);
             using var client = new HttpClient();
             client.BaseAddress = new Uri(endpoint.ToString());
             HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
@@ -170,7 +168,6 @@ namespace NyaaApi_DotNet.Controller.Implementation
             }
             endpoint = new StringBuilder();
             endpoint.Append(URL_ANIME).Append(animeId);
-            Console.WriteLine("URL\t\t" + endpoint);
             using var client = new HttpClient();
             client.BaseAddress = new Uri(endpoint.ToString());
             HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
@@ -280,6 +277,25 @@ namespace NyaaApi_DotNet.Controller.Implementation
             {
                 endpoint.Append(JikanApi.SLASH).Append(subtype);
             }
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri(endpoint.ToString());
+            HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
+            return await responseHelperAsync(response);
+        }
+
+
+        public async Task<APIGatewayProxyResponse> GetTopHentai(int page)
+        {
+            //https://api.jikan.moe/v3/search/anime?page=1&genre=12&order_by=score
+            if (page == -1)
+            {
+                page = 1;
+            }
+            endpoint = new StringBuilder();
+            endpoint.Append(URL_SEARCH).Append("anime").Append(JikanApi.QUEST).
+                Append(JikanParameter.PAGE).Append(page).Append(JikanApi.AND).
+                Append(JikanParameter.GENRE).Append(12).Append(JikanApi.AND).
+                Append(JikanParameter.ORDER).Append("score");
             using var client = new HttpClient();
             client.BaseAddress = new Uri(endpoint.ToString());
             HttpResponseMessage response = await client.GetAsync(client.BaseAddress);

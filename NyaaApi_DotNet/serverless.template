@@ -246,6 +246,121 @@
         }
       }
     },
+    "GetTopHentai": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NyaaApi_DotNet::NyaaApi_DotNet.View.NyaaFunctions::GetTopHentai",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/jikan/hentai/top",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
+    "GetSearchSukeibeAnime": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NyaaApi_DotNet::NyaaApi_DotNet.View.NyaaFunctions::GetSearchNyaaSukebeiAnime",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/sukebei/search/anime",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
+    "GetSearchSukeibeEroge": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NyaaApi_DotNet::NyaaApi_DotNet.View.NyaaFunctions::GetSearchNyaaSukebeiEroge",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/sukebei/search/eroge",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
+     "GetSearchSukeibeDoujin": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NyaaApi_DotNet::NyaaApi_DotNet.View.NyaaFunctions::GetSearchNyaaSukebeiDoujinshi",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/sukebei/search/doujin",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
+    "GetSearchSukeibeJAV": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NyaaApi_DotNet::NyaaApi_DotNet.View.NyaaFunctions::GetSearchNyaaSukebeiJAV",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/sukebei/search/jav",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
     "AddQAQuestion": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
@@ -281,11 +396,10 @@
         },
         "Events": {
           "PostResource": {
-            "Type": "Api",
+            "Type": "HttpApi",
             "Properties": {
               "Path": "/qa/",
               "Method": "POST"
-              
             }
           }
         }
@@ -336,6 +450,29 @@
           },
           "WriteCapacityUnits": {
             "Ref": "WriteCapacity"
+          }
+        }
+      }
+    },
+    "GetTest": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NyaaApi_DotNet::NyaaApi_DotNet.View.NyaaFunctions::Test",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "",
+        "MemorySize": 256,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/test/1",
+              "Method": "GET"
+            }
           }
         }
       }
